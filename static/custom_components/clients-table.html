@@ -1,0 +1,74 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<dom-module id="clients-table">
+
+    <style>
+        :host {
+            display: block;                        
+        }
+		iron-list{
+			width: 100%;			
+		}
+		
+		.client-column, .client-header{
+			@apply(--layout-flex);
+		}		
+		.client-row{
+			#margin: 20px;
+		}
+		.client-row:hover{
+			background-color: #ccc;
+		}
+    </style>
+
+    <template>		
+		<div class="client-header layout horizontal justified">
+			<div class="column-header client-column">姓名</div>
+			<div class="column-header client-column">電話</div>
+			<div class="column-header client-column">地址</div>
+			<div class="column-header client-column">公司</div>
+			<div class="column-header client-column">公司電話</div>
+			<div class="column-header client-column">公司地址</div>
+			<div class="column-header client-column">其他</div>
+		</div>
+		<iron-list id="table" as="clients" items="[[data]]">
+			<template>				
+				<div class="client-row layout horizontal justified">					
+					<div class="client-column">[[clients.name]]</div>
+					<div class="client-column">[[clients.phone]]</div>
+					<div class="client-column">[[clients.address]]</div>
+					<div class="client-column">[[clients.company_name]]</div>
+					<div class="client-column">[[clients.company_phone]]</div>
+					<div class="client-column">[[clients.company_address]]</div>
+					<div class="client-column">[[clients.memo]]</div>
+					<div class="client-column" hidden>[[clients.id]]</div>
+					<div class="client-column" hidden>[[clients.company_id]]</div>
+				</div>				
+			</template>
+		</iron-list>
+
+		<iron-ajax id="getDetailAjax" url="/api/getdetails" method="POST" handle-as="json" on-response="handle"></iron-ajax>
+    </template>
+
+    <script>
+        Polymer({
+            // ELEMENT
+            is: 'clients-table',
+			properties:{
+				data:{
+					type: Array,
+					observer: "dataChanged"
+				}
+			},
+			dataChanged: function(oldValue, newValue){
+				this.$.table.fire('iron-resize');
+			},
+			handle: function(e){
+
+			}
+        });
+    </script>
+
+</dom-module>

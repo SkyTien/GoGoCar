@@ -1,0 +1,59 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<dom-module id="car-detail">
+
+    <style>
+        :host {
+            display: block;                        
+        }
+		iron-list{
+			width: 100%;			
+		}
+		
+		.client-column, .client-header{
+			@apply(--layout-flex);
+		}		
+		.client-row{
+			#margin: 20px;
+		}
+		.client-row:hover{
+			background-color: #ccc;
+		}
+    </style>
+
+    <template>		
+		<div class="client-header layout horizontal justified">
+			<div class="column-header client-column">車牌</div>
+			<div class="column-header client-column">日期</div>
+			<div class="column-header client-column">價錢</div>
+		</div>
+		<iron-list id="table" as="detail" items="[[data]]">
+			<template>				
+				<div class="client-row layout horizontal justified">					
+					<div class="client-column">[[detail.car_number]]</div>
+					<div class="client-column">[[detail.date]]</div>
+					<div class="client-column">[[detail.price]]</div>
+				</div>				
+			</template>
+		</iron-list>
+    </template>
+
+    <script>
+        Polymer({
+            // ELEMENT
+            is: 'car-detail',
+			properties:{
+				data:{
+					type: Array,
+					observer: "dataChanged"
+				}
+			},
+			dataChanged: function(oldValue, newValue){
+				this.$.table.fire('iron-resize');
+			}
+        });
+    </script>
+
+</dom-module>
